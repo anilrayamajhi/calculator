@@ -1,0 +1,51 @@
+var digit = document.querySelectorAll('.digit');
+var readout = document.querySelector('#readout');
+var operate = document.querySelectorAll('.operator');
+var equal = document.querySelector('.equal');
+var ac = document.querySelector('.ac');
+var input1 = null;
+var input2 = null;
+var operator = null;
+
+digit.forEach(function(d) {
+  d.addEventListener('click', function(){
+    if(readout.innerText === '0'){
+      readout.innerText="";
+      readout.innerText += this.innerText;
+    }
+    else{
+      readout.innerText += this.innerText;
+    }
+  });
+});
+
+operate.forEach(function(o){
+  o.addEventListener('click', function(){
+    operator = this.getAttribute('data-op');
+    input1 = readout.innerText;
+    readout.innerText = "";
+  });
+});
+
+
+equal.addEventListener('click', function(){
+  input2 = readout.innerText;
+  readout.innerText="";
+  readout.innerText = operation[operator](input1, input2);
+  input1 = null;
+  input2 = null;
+  operator = null;
+});
+
+var operation = {
+  add: function(a,b) {return ((+a) + (+b));},
+  substract: function(a,b) {return ((+a)-(+b));},
+  multiply: function(a,b) {return ((+a)*(+b));},
+  divide: function(a,b) {return ((+a)/(+b));},
+  percent: function(a) {return ((+a)/100);},
+  equal: function(a) {return (+a);},
+};
+
+ac.addEventListener('click', function(){
+  readout.innerText = null;
+})
